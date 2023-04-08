@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RequestManager {
 
     Context context;
-    private String BASE_URL = "https://api.pexels.com/v1/";
+    private final String BASE_URL = "https://api.pexels.com/v1/";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -28,7 +28,7 @@ public class RequestManager {
 
     public void getCuratedWallpapers(CuretedResponseListners listner, String page){
         MyApi myApi = retrofit.create(MyApi.class);
-        Call<CuratedApiResponse> call = myApi.getWallpapers(page,"20");
+        Call<CuratedApiResponse> call = myApi.getWallpapers(page,"50");
         call.enqueue(new Callback<CuratedApiResponse>() {
             @Override
             public void onResponse(Call<CuratedApiResponse> call, Response<CuratedApiResponse> response) {

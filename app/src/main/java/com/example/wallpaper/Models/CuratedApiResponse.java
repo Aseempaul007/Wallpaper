@@ -1,8 +1,9 @@
 package com.example.wallpaper.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CuratedApiResponse {
+public class CuratedApiResponse implements Serializable {
 
     public int page;
     public int per_page;

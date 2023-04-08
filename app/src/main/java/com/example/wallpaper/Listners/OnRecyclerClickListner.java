@@ -6,6 +6,6 @@ import com.example.wallpaper.Models.Photo;
 
 public interface OnRecyclerClickListner {
 
-    public void onClick(Photo photo);
+    void onClick(Photo photo);
 
 }

@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".WallpaperActivity">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_home"
+    <ImageView
+        android:id="@+id/medium_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab_next"
+        android:id="@+id/fab_download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="22dp"
@@ -28,16 +28,15 @@
         android:paddingTop="14dp"
         android:paddingEnd="18dp"
         android:paddingBottom="14dp"
-        android:text="Next"
+        android:text="Download"
         android:textAllCaps="false"
-        android:textSize="18sp"
-        app:icon="@drawable/ic_next"
-        app:iconGravity="end"
+        android:textSize="14sp"
+        app:icon="@drawable/ic_download"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab_prev"
+        android:id="@+id/fab_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="22dp"
@@ -47,11 +46,13 @@
         android:paddingTop="14dp"
         android:paddingEnd="18dp"
         android:paddingBottom="14dp"
-        android:text="Prev"
+        android:text="Wallpaper"
         android:textAllCaps="false"
-        android:textSize="18sp"
-        app:icon="@drawable/ic_prev"
+        android:textSize="14sp"
+        app:icon="@drawable/ic_wallpaper"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
