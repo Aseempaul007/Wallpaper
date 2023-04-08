@@ -3,7 +3,10 @@ package com.example.wallpaper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
+import android.app.WallpaperManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -64,6 +67,18 @@ public class WallpaperActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                WallpaperManager wallpaperManager = WallpaperManager.getInstance(WallpaperActivity.this);
+                Bitmap bitmap = ((BitmapDrawable) imageViewMedium.getDrawable()).getBitmap();
+
+                try {
+
+                    wallpaperManager.setBitmap(bitmap);
+                    Toast.makeText(WallpaperActivity.this, "Wallpaper applied!", Toast.LENGTH_SHORT).show();
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(WallpaperActivity.this, "Something went wrong... Please try again", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
