@@ -38,11 +38,14 @@ public class RequestManager {
                 }
 
                 listner.onFetch(response.body(), response.message());
+
             }
 
             @Override
             public void onFailure(Call<CuratedApiResponse> call, Throwable t) {
+
                 listner.onError(t.getMessage());
+
             }
         });
     }
