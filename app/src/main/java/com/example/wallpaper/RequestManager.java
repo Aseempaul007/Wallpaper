@@ -4,7 +4,9 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.example.wallpaper.Listners.CuretedResponseListners;
+import com.example.wallpaper.Listners.SearchResponseListener;
 import com.example.wallpaper.Models.CuratedApiResponse;
+import com.example.wallpaper.Models.SearchModels;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,5 +50,28 @@ public class RequestManager {
 
             }
         });
+    }
+
+    public void getSearchWallpapers(SearchResponseListener listener, String page,String query){
+
+        SearchPhotosApi searchPhotosApi = retrofit.create(SearchPhotosApi.class);
+        Call<SearchModels> call = searchPhotosApi.getSearchedPhotos(query,page,"30");
+
+        call.enqueue(new Callback<SearchModels>() {
+            @Override
+            public void onResponse(Call<SearchModels> call, Response<SearchModels> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(context, "An Error occured", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                listener.onFetch(response.body(),response.message());
+            }
+
+            @Override
+            public void onFailure(Call<SearchModels> call, Throwable t) {
+                listener.onError(t.getMessage());
+            }
+        });
+
     }
 }
