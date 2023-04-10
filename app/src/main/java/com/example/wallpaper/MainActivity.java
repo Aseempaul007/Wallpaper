@@ -1,8 +1,11 @@
 package com.example.wallpaper;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.wallpaper.Adapters.CuratedAdapter;
@@ -22,6 +27,7 @@ import com.example.wallpaper.Listners.SearchResponseListener;
 import com.example.wallpaper.Models.CuratedApiResponse;
 import com.example.wallpaper.Models.Photo;
 import com.example.wallpaper.Models.SearchModels;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
@@ -36,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
     ExtendedFloatingActionButton btnNext;
 
     ExtendedFloatingActionButton btnPrev;
+
+    ActionBar actionBar;
+
+
 
     int currentPage=1;
 
@@ -53,6 +63,13 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
 
         manager = new RequestManager(MainActivity.this);
         manager.getCuratedWallpapers(listners, Integer.toString(currentPage));
+
+        actionBar = getSupportActionBar();
+        actionBar.setElevation(10);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.actionbar_title_layout);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
 
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
         adapter = new CuratedAdapter(MainActivity.this,photos,this);
 
         recyclerViewHome.setHasFixedSize(true);
-        recyclerViewHome.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerViewHome.setLayoutManager(new GridLayoutManager(this,3));
         recyclerViewHome.setAdapter(adapter);
 
 
@@ -126,7 +143,9 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
         getMenuInflater().inflate(R.menu.items,menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Type here to search..");
+
+        searchView.setQueryHint(Html.fromHtml("<font color = #000000>" + "Type here to search.." + "</font>"));
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -142,6 +161,11 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
         });
         return super.onCreateOptionsMenu(menu);
     }
+
+
+
+
+
 
     private final SearchResponseListener searchResponseListener = new SearchResponseListener() {
         @Override
