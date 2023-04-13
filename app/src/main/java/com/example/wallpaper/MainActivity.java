@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
@@ -38,16 +41,12 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
     RequestManager manager;
     ProgressDialog dialog;
     CuratedAdapter adapter;
-
     ExtendedFloatingActionButton btnNext;
-
     ExtendedFloatingActionButton btnPrev;
-
     ActionBar actionBar;
-
-
-
     int currentPage=1;
+
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
         actionBar.setCustomView(R.layout.actionbar_title_layout);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_background)));
 
 
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
         getMenuInflater().inflate(R.menu.items,menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
-
         searchView.setQueryHint(Html.fromHtml("<font color = #000000>" + "Type here to search.." + "</font>"));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -171,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
         @Override
         public void onFetch(SearchModels response, String message) {
             dialog.dismiss();
+            btnNext.hide();
+            btnPrev.hide();
             if(response.getPhotos().isEmpty()){
                 Toast.makeText(MainActivity.this, "Photos not found!", Toast.LENGTH_SHORT).show();
                 return;
