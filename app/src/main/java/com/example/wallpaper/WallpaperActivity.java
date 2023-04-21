@@ -19,48 +19,45 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.wallpaper.Models.Photo;
+import com.example.wallpaper.databinding.ActivityWallpaperBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 public class WallpaperActivity extends AppCompatActivity{
 
-    ImageView imageViewMedium;
-    ExtendedFloatingActionButton btnDownload,btnWallpaper;
 
+    ActivityWallpaperBinding wallpaperBinding;
+    //ExtendedFloatingActionButton btnDownload,btnWallpaper;
     Photo photo;
-
-    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wallpaper);
+        wallpaperBinding = ActivityWallpaperBinding.inflate(getLayoutInflater());
+        setContentView(wallpaperBinding.getRoot());
 
-        imageViewMedium = findViewById(R.id.medium_image);
-        btnDownload = findViewById(R.id.fab_download);
-        btnWallpaper = findViewById(R.id.fab_save);
         photo = (Photo)getIntent().getSerializableExtra("photo");
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        wallpaperBinding.bottomNavigationView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
+        wallpaperBinding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch (item.getItemId()){
                     case R.id.bnv_download : download();
+                    break;
                     case R.id.bnv_Set_wallpaper: setWallpaper();
+                    break;
                 }
                 return true;
             }
         });
 
-
+        Picasso.get().load(photo.getSrc().getPortrait()).placeholder(R.drawable.placeholder_image).into(wallpaperBinding.mediumImage);
 
 
 //        btnDownload.setOnClickListener(new View.OnClickListener() {
@@ -107,8 +104,6 @@ public class WallpaperActivity extends AppCompatActivity{
 //            }
 //        });
 
-
-        Picasso.get().load(photo.getSrc().getPortrait()).placeholder(R.drawable.placeholder_image).into(imageViewMedium);
     }
 
 
@@ -136,7 +131,7 @@ public class WallpaperActivity extends AppCompatActivity{
 
     public void setWallpaper(){
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(WallpaperActivity.this);
-        Bitmap bitmap = ((BitmapDrawable) imageViewMedium.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) wallpaperBinding.mediumImage.getDrawable()).getBitmap();
 
         try {
 

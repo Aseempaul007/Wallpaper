@@ -30,6 +30,7 @@ import com.example.wallpaper.Listners.SearchResponseListener;
 import com.example.wallpaper.Models.CuratedApiResponse;
 import com.example.wallpaper.Models.Photo;
 import com.example.wallpaper.Models.SearchModels;
+import com.example.wallpaper.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -37,12 +38,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements OnRecyclerClickListner {
 
-    RecyclerView recyclerViewHome;
+    ActivityMainBinding mainBinding;
     RequestManager manager;
     ProgressDialog dialog;
     CuratedAdapter adapter;
-    ExtendedFloatingActionButton btnNext;
-    ExtendedFloatingActionButton btnPrev;
     ActionBar actionBar;
     int currentPage=1;
 
@@ -51,11 +50,8 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        recyclerViewHome = findViewById(R.id.recycler_home);
-        btnNext = findViewById(R.id.fab_next);
-        btnPrev = findViewById(R.id.fab_prev);
+        mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(mainBinding.getRoot());
 
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading...");
@@ -73,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar_background)));
 
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        mainBinding.fabNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String nextPage = String.valueOf(currentPage+1);
@@ -82,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
             }
         });
 
-        btnPrev.setOnClickListener(new View.OnClickListener() {
+        mainBinding.fabPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(currentPage>1){
@@ -123,9 +119,9 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
     private void showData(ArrayList<Photo> photos) {
         adapter = new CuratedAdapter(MainActivity.this,photos,this);
 
-        recyclerViewHome.setHasFixedSize(true);
-        recyclerViewHome.setLayoutManager(new GridLayoutManager(this,3));
-        recyclerViewHome.setAdapter(adapter);
+        mainBinding.recyclerHome.setHasFixedSize(true);
+        mainBinding.recyclerHome.setLayoutManager(new GridLayoutManager(this,3));
+        mainBinding.recyclerHome.setAdapter(adapter);
 
 
     }
@@ -171,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerClickLi
         @Override
         public void onFetch(SearchModels response, String message) {
             dialog.dismiss();
-            btnNext.hide();
-            btnPrev.hide();
+            mainBinding.fabNext.hide();
+            mainBinding.fabPrev.hide();
             if(response.getPhotos().isEmpty()){
                 Toast.makeText(MainActivity.this, "Photos not found!", Toast.LENGTH_SHORT).show();
                 return;
